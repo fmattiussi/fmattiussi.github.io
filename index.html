@@ -1,0 +1,92 @@
+
+<!-- Scritto da francesco durante delle inutili ore di informatica -->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Peresson Drawings</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <body onmousemove="mouse_position(event)"></body>
+    <div id="canvas-wrapper">
+      <input type="color" class="btn-invisible" id="picker"/>
+      <canvas id="myCanvas" onmousedown="clickMouse()" onmouseup="releaseMouse()" oncontextmenu="apriColori()"></canvas>
+    </div>
+
+    <script type="text/javascript">
+
+    var colore = 'black'; //default
+    var iniziato = false; //default
+
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    var centerX = canvas.width / 2;
+    var centerY = canvas.height / 2;
+    var radius = 4;
+    canvas.width = screen.width / 2;
+    canvas.height = screen.height / 2;
+
+    var pagina = document.documentElement;
+
+    canvas.x = screen.height / 2 - canvas.height / 2;
+
+    function clickMouse() {
+
+      iniziato = true;
+
+    }
+
+    function releaseMouse() {
+
+      iniziato = false;
+    }
+
+    function apriColori() {
+
+      document.querySelector('.btn-invisible').click();
+
+    }
+
+    function mouse_position(e)
+    {
+
+      if (iniziato) {
+
+        context.beginPath();
+        context.arc(e.clientX - (window.innerWidth / 2 - canvas.width / 2), e.clientY - (document.body.scrollHeight / 2 - canvas.height / 2), radius, 0, 2 * Math.PI, false);
+        context.fillStyle = document.getElementById("picker").value;;
+        context.fill();
+
+      }
+
+    }
+
+    document.onkeypress = function(event){
+      switch (event.key) {
+        case 'e':
+          colore = 'green';
+          break;
+
+        case 'r':
+          colore = 'red';
+          break;
+
+        case 'q':
+          if (!iniziato) {
+            iniziato = true;
+          } else {
+            iniziato = false
+          }
+          break;
+
+        default:
+          colore = 'black';
+      }
+    }
+
+    </script>
+
+  </body>
+</html>
