@@ -10,6 +10,8 @@
   </head>
   <body>
     <body onmousemove="mouse_position(event)"></body>
+    <marquee>Premi il tasto destro per cambiare colore!</marquee>
+    <a id="download" download="iltuodisegno.png"><button type="button" onClick="download()">Scarica il tuo disegno</button></a>
     <div id="canvas-wrapper">
       <input type="color" class="btn-invisible" id="picker"/>
       <canvas id="myCanvas" onmousedown="clickMouse()" onmouseup="releaseMouse()" oncontextmenu="apriColori()"></canvas>
@@ -61,6 +63,12 @@
 
       }
 
+    }
+
+    function download(){
+      var download = document.getElementById("download");
+      var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+      download.setAttribute("href", image)
     }
 
     document.onkeypress = function(event){
