@@ -30,6 +30,8 @@
     canvas.width = screen.width / 2;
     canvas.height = screen.height / 2;
 
+    var canvasses = [context.getImageData(0, 0, canvas.width, canvas.height)];
+
     var pagina = document.documentElement;
 
     canvas.x = screen.height / 2 - canvas.height / 2;
@@ -43,6 +45,9 @@
     function releaseMouse() {
 
       iniziato = false;
+
+      canvasses.push(context.getImageData(0, 0, canvas.width, canvas.height));
+
     }
 
     function apriColori() {
@@ -58,7 +63,7 @@
 
         context.beginPath();
         context.arc(e.clientX - (window.innerWidth / 2 - canvas.width / 2), e.clientY - (document.body.scrollHeight / 2 - canvas.height / 2), radius, 0, 2 * Math.PI, false);
-        context.fillStyle = document.getElementById("picker").value;;
+        context.fillStyle = document.getElementById("picker").value;
         context.fill();
 
       }
@@ -93,6 +98,26 @@
           colore = 'black';
       }
     }
+
+    document.onkeydown = function(event) {
+      var evtobj = window.event? event : event
+
+      // control z e command z
+      if (evtobj.keyCode == 90 && evtobj.ctrlKey || evtobj.metaKey) {
+        evtobj.preventDefault();
+        evtobj.stopPropagation();
+
+        if (canvasses.length > 0) {
+          var imgData = canvasses.pop();
+          context.putImageData(imgData, 0, 0);
+        }
+      }
+
+    }
+
+    document.addEventListener("contextmenu",function(event){
+      event.preventDefault();
+    },false);
 
     </script>
 
